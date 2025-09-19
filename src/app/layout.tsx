@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "محمد الفاتح للبنين",
-  description: "مدرسة محمد الفاتح للبنين ",
+  description: "محمد الفاتح للبنين ",
 };
 
 export default function RootLayout({

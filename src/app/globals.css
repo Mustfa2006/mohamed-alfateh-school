@@ -228,3 +228,48 @@ body::before {
   color: white;
   transform: translateY(-2px);
 }
+
+
+/* تحسينات أداء للجوال */
+@media (max-width: 640px) {
+  body {
+    /* خلفية أبسط على الجوال لتقليل استهلاك المعالج */
+    background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+  }
+  body::before {
+    /* إيقاف الخلفية المتحركة الثقيلة */
+    display: none;
+    animation: none;
+  }
+  .glass-effect {
+    backdrop-filter: blur(8px);
+    border-width: 1px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  }
+  .school-title {
+    animation: none;
+    text-shadow: none;
+    filter: none;
+  }
+  .epic-button::before,
+  .epic-button-green::before {
+    display: none;
+  }
+  .epic-button,
+  .epic-button-green {
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    transition: transform .2s ease;
+  }
+  .pulse-circle {
+    animation: none;
+  }
+}
+
+/* احترام تفضيل النظام لتقليل الحركة */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
