@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { supabase, Grade, Section } from '@/lib/supabase'
 
@@ -23,13 +23,13 @@ export default function GradeSelector({ shift, onGradeSelect, onBack }: GradeSel
   // ترتيب الصفوف المطلوب
   const gradeOrder = ['الأول', 'الثاني', 'الثالث', 'الرابع', 'الخامس', 'السادس']
 
-  const sortGrades = (grades: Grade[]) => {
+  const sortGrades = useCallback((grades: Grade[]) => {
     return grades.sort((a, b) => {
       const indexA = gradeOrder.indexOf(a.name)
       const indexB = gradeOrder.indexOf(b.name)
       return indexA - indexB
     })
-  }
+  }, [])
 
   const fetchGrades = useCallback(async () => {
     try {
@@ -53,7 +53,7 @@ export default function GradeSelector({ shift, onGradeSelect, onBack }: GradeSel
       setGrades(sortedGrades)
 
       const gradeIds = (sortedGrades || []).map(g => g.id)
-      let sectionsMap: { [key: string]: Section[] } = {}
+      const sectionsMap: { [key: string]: Section[] } = {}
       if (gradeIds.length > 0) {
         const { data: sectionsData, error: sectionsError } = await supabase
           .from('sections')
@@ -141,26 +141,13 @@ export default function GradeSelector({ shift, onGradeSelect, onBack }: GradeSel
     } finally {
       setLoading(false)
     }
-  }, [shift])
+  }, [shift, sortGrades])
 
   useEffect(() => {
     fetchGrades()
   }, [fetchGrades])
 
-  const fetchSections = async (gradeId: string) => {
-    try {
-      const { data, error } = await supabase
-        .from('sections')
-        .select('*')
-        .eq('grade_id', gradeId)
-        .order('name')
 
-      if (error) throw error
-      setSections(prev => ({ ...prev, [gradeId]: data || [] }))
-    } catch (error) {
-      console.error('Error fetching sections:', error)
-    }
-  }
 
   if (loading) {
     return (
@@ -192,7 +179,7 @@ export default function GradeSelector({ shift, onGradeSelect, onBack }: GradeSel
       </div>
 
       <div className="space-y-8 my-auto">
-        {grades.map((grade, index) => (
+        {grades.map((grade) => (
           <motion.div
             key={grade.id}
             initial={{ opacity: 0, y: 20 }}
@@ -205,7 +192,7 @@ export default function GradeSelector({ shift, onGradeSelect, onBack }: GradeSel
             </div>
 
             <div className="p-10 space-y-10">
-              {sections[grade.id]?.map((section, sectionIndex) => (
+              {sections[grade.id]?.map((section) => (
                 <motion.button
                   key={section.id}
                   initial={{ opacity: 0, x: -20 }}

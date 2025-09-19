@@ -31,7 +31,7 @@ export default async function handler(req, res) {
       keepExtensions: true,
     })
 
-    const [fields, files] = await form.parse(req)
+    const [, files] = await form.parse(req)
     
     const file = files.file?.[0]
     const fileName = req.headers['x-file-name']
