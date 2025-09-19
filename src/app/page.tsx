@@ -2,12 +2,16 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { BookOpen } from 'lucide-react'
+import Image from 'next/image'
 import dynamic from 'next/dynamic'
 
 const ShiftSelector = dynamic(() => import('@/components/ShiftSelector'), { ssr: false })
 const GradeSelector = dynamic(() => import('@/components/GradeSelector'), { ssr: false })
 const ScheduleViewer = dynamic(() => import('@/components/ScheduleViewer'), { ssr: false })
+
+// Static import for the school logo (bundled by Next.js)
+// الصورة موجودة في جذر المشروع
+import schoolLogo from '../../photo_٢٠٢٥-٠٩-١٩_١٧-٣٨-٣٠.jpg'
 
 export default function Home() {
   const [selectedShift, setSelectedShift] = useState<'A' | 'B' | null>(null)
@@ -59,8 +63,15 @@ export default function Home() {
         >
           <div className="w-24 h-24 relative">
             <div className="absolute inset-0 bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 rounded-full animate-pulse"></div>
-            <div className="absolute inset-1 bg-gradient-to-br from-emerald-600 to-teal-700 rounded-full flex items-center justify-center">
-              <BookOpen className="w-12 h-12 text-white" />
+            <div className="absolute inset-1 bg-gradient-to-br from-emerald-600 to-teal-700 rounded-full overflow-hidden">
+              <Image
+                src={schoolLogo}
+                alt="شعار مدرسة محمد الفاتح"
+                fill
+                className="object-cover rounded-full"
+                sizes="96px"
+                priority
+              />
             </div>
           </div>
         </motion.div>
