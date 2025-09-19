@@ -41,15 +41,29 @@ export default function GradeSelector({ shift, onGradeSelect, onBack }: GradeSel
       const sortedGrades = sortGrades(data || [])
       setGrades(sortedGrades)
 
-      // Fetch sections for each grade
-      if (sortedGrades) {
-        for (const grade of sortedGrades) {
-          await fetchSections(grade.id)
+      // اجلب الشعب لكل الصفوف في طلب واحد لتقليل عدد الاتصالات
+      const gradeIds = (sortedGrades || []).map(g => g.id)
+      if (gradeIds.length > 0) {
+        const { data: sectionsData, error: sectionsError } = await supabase
+          .from('sections')
+          .select('*')
+          .in('grade_id', gradeIds)
+          .order('name')
+
+        if (sectionsError) throw sectionsError
+
+        const map: { [key: string]: Section[] } = {}
+        for (const s of sectionsData || []) {
+          if (!map[s.grade_id]) map[s.grade_id] = []
+          map[s.grade_id].push(s)
         }
+        setSections(map)
+      } else {
+        setSections({})
       }
     } catch (error) {
       console.error('Error fetching grades:', error)
-      // استخدام البيانات المطلوبة حسب الوجبة
+      // استخدام البيانات المطلوبة حسب الوجبة (fallback)
       if (shift === 'A') {
         setGrades([
           { id: '1', name: 'الأول', shift, created_at: new Date().toISOString() },
