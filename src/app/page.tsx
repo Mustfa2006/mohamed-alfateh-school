@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { BookOpen, Users, Star } from 'lucide-react'
+import { BookOpen } from 'lucide-react'
 import dynamic from 'next/dynamic'
 
 const ShiftSelector = dynamic(() => import('@/components/ShiftSelector'), { ssr: false })
@@ -13,7 +13,15 @@ export default function Home() {
   const [selectedShift, setSelectedShift] = useState<'A' | 'B' | null>(null)
   const [selectedGrade, setSelectedGrade] = useState<string | null>(null)
   const [selectedSection, setSelectedSection] = useState<string | null>(null)
+  const [gradeName, setGradeName] = useState<string | null>(null)
+  const [sectionName, setSectionName] = useState<string | null>(null)
   const [showSchedule, setShowSchedule] = useState(false)
+
+  // Preload next screens' chunks to make transitions instant
+  useEffect(() => {
+    import('@/components/GradeSelector')
+    import('@/components/ScheduleViewer')
+  }, [])
 
   const handleShiftSelect = (shift: 'A' | 'B') => {
     setSelectedShift(shift)
@@ -22,9 +30,11 @@ export default function Home() {
     setShowSchedule(false)
   }
 
-  const handleGradeSelect = (gradeId: string, sectionId: string) => {
+  const handleGradeSelect = (gradeId: string, sectionId: string, gName: string, sName: string) => {
     setSelectedGrade(gradeId)
     setSelectedSection(sectionId)
+    setGradeName(gName)
+    setSectionName(sName)
     setShowSchedule(true)
   }
 
@@ -32,6 +42,8 @@ export default function Home() {
     setSelectedShift(null)
     setSelectedGrade(null)
     setSelectedSection(null)
+    setGradeName(null)
+    setSectionName(null)
     setShowSchedule(false)
   }
 
@@ -106,6 +118,8 @@ export default function Home() {
             <ScheduleViewer
               gradeId={selectedGrade}
               sectionId={selectedSection}
+              gradeName={gradeName || ''}
+              sectionName={sectionName || ''}
               shift={selectedShift!}
               onBack={() => setShowSchedule(false)}
             />
