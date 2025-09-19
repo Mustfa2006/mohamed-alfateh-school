@@ -3,7 +3,8 @@
 import dynamic from 'next/dynamic'
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Shield, LogIn, Eye, EyeOff } from 'lucide-react'
+import { LogIn, Eye, EyeOff } from 'lucide-react'
+import SchoolLogoCircle from '@/components/SchoolLogoCircle'
 
 const AdminDashboard = dynamic(() => import('@/components/admin/AdminDashboard'), {
   ssr: false
@@ -120,8 +121,8 @@ export default function AdminPage() {
         <div className="glass-effect p-8 py-16 rounded-2xl border border-white/20">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Shield className="w-8 h-8 text-white" />
+            <div className="mx-auto mb-4">
+              <SchoolLogoCircle sizeClass="w-16 h-16" />
             </div>
             <h1 className="text-2xl font-bold text-white mb-2">لوحة التحكم</h1>
             <p className="text-white/70">مدرسة محمد الفتح للبنين</p>
