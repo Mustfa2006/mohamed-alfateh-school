@@ -111,7 +111,7 @@ export default function ScheduleViewer({ gradeId, sectionId, gradeName, sectionN
       <div className="text-center mb-8">
         <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">الجدول الدراسي</h2>
         <p className="text-white/80 text-lg">
-          الصف {gradeName} - شعبة {sectionName} - الوجبة {shift}
+          {gradeName} - شعبة {sectionName} - الوجبة {shift}
         </p>
       </div>
 
