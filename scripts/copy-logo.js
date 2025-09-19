@@ -6,6 +6,7 @@ const path = require('path');
 const root = process.cwd();
 const src = path.join(root, 'photo_٢٠٢٥-٠٩-١٩_١٧-٣٨-٣٠.jpg');
 const pub = path.join(root, 'public');
+const appDir = path.join(root, 'src', 'app');
 
 function safeCopy(from, to) {
   try {
@@ -18,11 +19,17 @@ function safeCopy(from, to) {
 
 try {
   if (!fs.existsSync(pub)) fs.mkdirSync(pub, { recursive: true });
+  if (!fs.existsSync(appDir)) fs.mkdirSync(appDir, { recursive: true });
   if (fs.existsSync(src)) {
+    // Public assets
     safeCopy(src, path.join(pub, 'school-logo.jpg'));
-    // For manifests: use JPGs as well
     safeCopy(src, path.join(pub, 'icon-192.jpg'));
     safeCopy(src, path.join(pub, 'icon-512.jpg'));
+    // App Router special files for icons/OG/Twitter
+    safeCopy(src, path.join(appDir, 'icon.jpg'));
+    safeCopy(src, path.join(appDir, 'apple-icon.jpg'));
+    safeCopy(src, path.join(appDir, 'opengraph-image.jpg'));
+    safeCopy(src, path.join(appDir, 'twitter-image.jpg'));
   } else {
     console.warn('Logo source not found at', src);
   }

@@ -26,18 +26,18 @@ export const metadata: Metadata = {
     siteName: 'مدرسة محمد الفاتح للبنين',
     title: 'مدرسة محمد الفاتح للبنين',
     description: 'نظام عرض الجداول الدراسية – اختر الوجبة والصف والشعبة بسهولة',
-    images: ['/school-logo.jpg'],
+    images: ['/opengraph-image.jpg'],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'مدرسة محمد الفاتح للبنين',
     description: 'نظام عرض الجداول الدراسية – اختر الوجبة والصف والشعبة بسهولة',
-    images: ['/school-logo.jpg'],
+    images: ['/twitter-image.jpg'],
   },
   icons: {
     icon: ['/school-logo.jpg'],
     shortcut: ['/school-logo.jpg'],
-    apple: ['/icon-192.jpg'],
+    apple: ['/apple-icon.jpg'],
   },
   manifest: '/site.webmanifest',
 };
