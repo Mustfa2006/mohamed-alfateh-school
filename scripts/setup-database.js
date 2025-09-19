@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 const { createClient } = require('@supabase/supabase-js')
 require('dotenv').config({ path: '.env.local' })
 
@@ -101,13 +103,13 @@ async function setupDatabase() {
 
     // إدراج البيانات الأساسية للصفوف والشعب
     console.log('📊 إدراج البيانات الأساسية...')
-    
+
     // الوجبة A
     const gradesA = [
       'الأول', 'الثاني', 'الثالث', 'الرابع', 'الخامس', 'السادس'
     ]
 
-    // الوجبة B  
+    // الوجبة B
     const gradesB = [
       'الأول', 'الثاني', 'الثالث', 'الرابع', 'الخامس', 'السادس'
     ]
@@ -241,7 +243,7 @@ async function setupDatabase() {
     console.log('✅ تم إعداد قاعدة البيانات بنجاح!')
     console.log('📧 البريد الإلكتروني للإدارة: admin@mohamedalfateh.edu')
     console.log('🔑 كلمة المرور: Admin123!@#')
-    
+
   } catch (error) {
     console.error('❌ خطأ في إعداد قاعدة البيانات:', error)
   }

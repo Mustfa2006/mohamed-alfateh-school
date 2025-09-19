@@ -7,7 +7,7 @@ import { supabase, Grade, Section } from '@/lib/supabase'
 
 
 // ترتيب الصفوف المطلوب (ثابت على مستوى الملف لتجنب تحذيرات useCallback)
-const GRADE_ORDER = ['الأول', 'الثاني', 'الثالث', 'الرابع', 'الخامس', 'السادس'] as const;
+const GRADE_ORDER: readonly string[] = ['الأول', 'الثاني', 'الثالث', 'الرابع', 'الخامس', 'السادس'];
 
 // Cache مبسط داخل الذاكرة لكل وجبة
 const gradeCache: Partial<Record<'A' | 'B', { grades: Grade[]; sections: { [k: string]: Section[] } }>> = {}
