@@ -9,16 +9,16 @@ import Image from 'next/image'
 interface ScheduleViewerProps {
   gradeId: string
   sectionId: string
+  gradeName: string
+  sectionName: string
   shift: 'A' | 'B'
   onBack: () => void
 }
 
-export default function ScheduleViewer({ gradeId, sectionId, shift, onBack }: ScheduleViewerProps) {
+export default function ScheduleViewer({ gradeId, sectionId, gradeName, sectionName, shift, onBack }: ScheduleViewerProps) {
   const [schedule, setSchedule] = useState<Schedule | null>(null)
   const [loading, setLoading] = useState(true)
   const [imageLoading, setImageLoading] = useState(true)
-  const [gradeName, setGradeName] = useState('')
-  const [sectionName, setSectionName] = useState('')
 
   const fetchSchedule = useCallback(async () => {
     try {
@@ -48,27 +48,11 @@ export default function ScheduleViewer({ gradeId, sectionId, shift, onBack }: Sc
     }
   }, [gradeId, sectionId])
 
-  const fetchGradeAndSectionNames = useCallback(async () => {
-    try {
-      const [gradeResponse, sectionResponse] = await Promise.all([
-        supabase.from('grades').select('name').eq('id', gradeId).single(),
-        supabase.from('sections').select('name').eq('id', sectionId).single()
-      ])
 
-      if (gradeResponse.data) setGradeName(gradeResponse.data.name)
-      if (sectionResponse.data) setSectionName(sectionResponse.data.name)
-    } catch (error) {
-      console.error('Error fetching names:', error)
-      // Fallback names
-      setGradeName(`الصف ${gradeId}`)
-      setSectionName('أ')
-    }
-  }, [gradeId, sectionId])
 
   useEffect(() => {
     fetchSchedule()
-    fetchGradeAndSectionNames()
-  }, [fetchSchedule, fetchGradeAndSectionNames])
+  }, [fetchSchedule])
 
   const downloadSchedule = async () => {
     if (schedule?.image_url) {

@@ -1,13 +1,16 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { motion } from 'framer-motion'
-import { ArrowRight, Users, BookOpen } from 'lucide-react'
+import { motion, useReducedMotion } from 'framer-motion'
+import { ArrowRight } from 'lucide-react'
 import { supabase, Grade, Section } from '@/lib/supabase'
+
+// Cache مبسط داخل الذاكرة لكل وجبة
+const gradeCache: Partial<Record<'A' | 'B', { grades: Grade[]; sections: { [k: string]: Section[] } }>> = {}
 
 interface GradeSelectorProps {
   shift: 'A' | 'B'
-  onGradeSelect: (gradeId: string, sectionId: string) => void
+  onGradeSelect: (gradeId: string, sectionId: string, gradeName: string, sectionName: string) => void
   onBack: () => void
 }
 
@@ -30,6 +33,15 @@ export default function GradeSelector({ shift, onGradeSelect, onBack }: GradeSel
 
   const fetchGrades = useCallback(async () => {
     try {
+      //  Cache 
+      const cached = gradeCache[shift]
+      if (cached) {
+        setGrades(cached.grades)
+        setSections(cached.sections)
+        setLoading(false)
+        return
+      }
+
       const { data, error } = await supabase
         .from('grades')
         .select('*')
@@ -37,12 +49,11 @@ export default function GradeSelector({ shift, onGradeSelect, onBack }: GradeSel
 
       if (error) throw error
 
-      // ترتيب الصفوف حسب الترتيب المطلوب
       const sortedGrades = sortGrades(data || [])
       setGrades(sortedGrades)
 
-      // اجلب الشعب لكل الصفوف في طلب واحد لتقليل عدد الاتصالات
       const gradeIds = (sortedGrades || []).map(g => g.id)
+      let sectionsMap: { [key: string]: Section[] } = {}
       if (gradeIds.length > 0) {
         const { data: sectionsData, error: sectionsError } = await supabase
           .from('sections')
@@ -52,29 +63,29 @@ export default function GradeSelector({ shift, onGradeSelect, onBack }: GradeSel
 
         if (sectionsError) throw sectionsError
 
-        const map: { [key: string]: Section[] } = {}
         for (const s of sectionsData || []) {
-          if (!map[s.grade_id]) map[s.grade_id] = []
-          map[s.grade_id].push(s)
+          if (!sectionsMap[s.grade_id]) sectionsMap[s.grade_id] = []
+          sectionsMap[s.grade_id].push(s)
         }
-        setSections(map)
-      } else {
-        setSections({})
       }
+      setSections(sectionsMap)
+
+      //  store in cache
+      gradeCache[shift] = { grades: sortedGrades, sections: sectionsMap }
     } catch (error) {
       console.error('Error fetching grades:', error)
-      // استخدام البيانات المطلوبة حسب الوجبة (fallback)
+      // fallback (local)
       if (shift === 'A') {
-        setGrades([
+        const fallbackGrades: Grade[] = [
           { id: '1', name: 'الأول', shift, created_at: new Date().toISOString() },
           { id: '2', name: 'الثاني', shift, created_at: new Date().toISOString() },
           { id: '3', name: 'الثالث', shift, created_at: new Date().toISOString() },
           { id: '4', name: 'الرابع', shift, created_at: new Date().toISOString() },
           { id: '5', name: 'الخامس', shift, created_at: new Date().toISOString() },
           { id: '6', name: 'السادس', shift, created_at: new Date().toISOString() },
-        ])
-
-        setSections({
+        ]
+        setGrades(fallbackGrades)
+        const fbSections: { [k: string]: Section[] } = {
           '1': [{ id: '1-1', grade_id: '1', name: 'أ', created_at: new Date().toISOString() }],
           '2': [
             { id: '2-1', grade_id: '2', name: 'أ', created_at: new Date().toISOString() },
@@ -94,18 +105,20 @@ export default function GradeSelector({ shift, onGradeSelect, onBack }: GradeSel
             { id: '6-1', grade_id: '6', name: 'أ', created_at: new Date().toISOString() },
             { id: '6-2', grade_id: '6', name: 'ب', created_at: new Date().toISOString() }
           ],
-        })
+        }
+        setSections(fbSections)
+        gradeCache[shift] = { grades: fallbackGrades, sections: fbSections }
       } else {
-        setGrades([
+        const fallbackGrades: Grade[] = [
           { id: '1', name: 'الأول', shift, created_at: new Date().toISOString() },
           { id: '2', name: 'الثاني', shift, created_at: new Date().toISOString() },
           { id: '3', name: 'الثالث', shift, created_at: new Date().toISOString() },
           { id: '4', name: 'الرابع', shift, created_at: new Date().toISOString() },
           { id: '5', name: 'الخامس', shift, created_at: new Date().toISOString() },
           { id: '6', name: 'السادس', shift, created_at: new Date().toISOString() },
-        ])
-
-        setSections({
+        ]
+        setGrades(fallbackGrades)
+        const fbSections: { [k: string]: Section[] } = {
           '1': [{ id: '1-1', grade_id: '1', name: 'أ', created_at: new Date().toISOString() }],
           '2': [{ id: '2-2', grade_id: '2', name: 'ب', created_at: new Date().toISOString() }],
           '3': [{ id: '3-1', grade_id: '3', name: 'أ', created_at: new Date().toISOString() }],
@@ -121,7 +134,9 @@ export default function GradeSelector({ shift, onGradeSelect, onBack }: GradeSel
             { id: '6-1', grade_id: '6', name: 'أ', created_at: new Date().toISOString() },
             { id: '6-2', grade_id: '6', name: 'ب', created_at: new Date().toISOString() }
           ],
-        })
+        }
+        setSections(fbSections)
+        gradeCache[shift] = { grades: fallbackGrades, sections: fbSections }
       }
     } finally {
       setLoading(false)
@@ -182,7 +197,7 @@ export default function GradeSelector({ shift, onGradeSelect, onBack }: GradeSel
             key={grade.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
+            transition={{ duration: 0.15 }}
             className="glass-effect rounded-2xl border-2 border-white/20 overflow-hidden"
           >
             <div className="bg-gradient-to-r from-emerald-600 to-teal-600 p-4">
@@ -195,8 +210,8 @@ export default function GradeSelector({ shift, onGradeSelect, onBack }: GradeSel
                   key={section.id}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: (index * 0.1) + (sectionIndex * 0.05) }}
-                  onClick={() => onGradeSelect(grade.id, section.id)}
+                  transition={{ duration: 0.15 }}
+                  onClick={() => onGradeSelect(grade.id, section.id, grade.name, section.name)}
                   className="w-full epic-button p-5 rounded-xl flex items-center justify-between group"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
