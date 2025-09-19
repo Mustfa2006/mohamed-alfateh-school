@@ -181,7 +181,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
       <div className="w-64 glass-effect border-r border-white/20 p-6">
         <div className="mb-8">
           <h1 className="text-xl font-bold text-white">لوحة التحكم</h1>
-          <p className="text-white/70 text-sm">مدرسة محمد الفاتح</p>
+          <p className="text-white/70 text-sm">مدرسة محمد الفاتح للبنين</p>
         </div>
 
         <nav className="space-y-2">

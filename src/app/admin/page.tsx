@@ -124,7 +124,7 @@ export default function AdminPage() {
               <Shield className="w-8 h-8 text-white" />
             </div>
             <h1 className="text-2xl font-bold text-white mb-2">لوحة التحكم</h1>
-            <p className="text-white/70">مدرسة محمد الفاتح للبنين</p>
+            <p className="text-white/70">مدرسة محمد الفتح للبنين</p>
           </div>
 
           {/* Login Form */}

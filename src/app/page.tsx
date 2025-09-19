@@ -82,7 +82,7 @@ export default function Home() {
               animate={{ scale: 1 }}
               transition={{ duration: 0.8, delay: 0.5 }}
             >
-              مدرسة محمد الفاتح
+             مدرسة محمد الفاتح للبنين  
             </motion.h1>
 
             <motion.div
