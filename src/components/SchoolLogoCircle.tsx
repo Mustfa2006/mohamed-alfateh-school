@@ -1,17 +1,12 @@
 "use client"
 
 import Image from "next/image"
+import schoolLogo from "../../photo_٢٠٢٥-٠٩-١٩_١٧-٣٨-٣٠.jpg"
+
 
 // مكون الشعار داخل دائرة مع حافة متدرجة
 // sizeClass للتحكم بالحجم (مثال: "w-24 h-24" أو "w-16 h-16")
 export default function SchoolLogoCircle({ sizeClass = "w-24 h-24", priority = false }: { sizeClass?: string; priority?: boolean }) {
-  // استيراد الصورة الثابتة من جذر المشروع
-  // ملاحظة: اسم الملف يحتوي أرقام عربية ويعمل مع Next كاستيراد ثابت
-  // في حال رغبت بنقل الصورة لاحقاً إلى مجلد public، يمكن استبدال الاستيراد بمسار نصي
-  // مثل: <Image src="/school-logo.jpg" ... />
-  // المسار التالي صحيح من src/components إلى جذر المشروع
-  // eslint-disable-next-line @next/next/no-img-element
-  const schoolLogo = require("../../photo_٢٠٢٥-٠٩-١٩_١٧-٣٨-٣٠.jpg") as unknown as string
 
   return (
     <div className={`relative ${sizeClass}`}>

@@ -5,6 +5,10 @@ import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { supabase, Grade, Section } from '@/lib/supabase'
 
+
+// ترتيب الصفوف المطلوب (ثابت على مستوى الملف لتجنب تحذيرات useCallback)
+const GRADE_ORDER = ['الأول', 'الثاني', 'الثالث', 'الرابع', 'الخامس', 'السادس'] as const;
+
 // Cache مبسط داخل الذاكرة لكل وجبة
 const gradeCache: Partial<Record<'A' | 'B', { grades: Grade[]; sections: { [k: string]: Section[] } }>> = {}
 
@@ -20,13 +24,12 @@ export default function GradeSelector({ shift, onGradeSelect, onBack }: GradeSel
 
   const [loading, setLoading] = useState(true)
 
-  // ترتيب الصفوف المطلوب
-  const gradeOrder = ['الأول', 'الثاني', 'الثالث', 'الرابع', 'الخامس', 'السادس']
+
 
   const sortGrades = useCallback((grades: Grade[]) => {
-    return grades.sort((a, b) => {
-      const indexA = gradeOrder.indexOf(a.name)
-      const indexB = gradeOrder.indexOf(b.name)
+    return [...grades].sort((a, b) => {
+      const indexA = GRADE_ORDER.indexOf(a.name)
+      const indexB = GRADE_ORDER.indexOf(b.name)
       return indexA - indexB
     })
   }, [])
