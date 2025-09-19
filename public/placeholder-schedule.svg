@@ -1,0 +1,64 @@
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f8fafc"/>
+  
+  <!-- Header -->
+  <rect x="50" y="50" width="700" height="80" fill="#1e40af" rx="10"/>
+  <text x="400" y="100" text-anchor="middle" fill="white" font-size="24" font-weight="bold">الجدول الدراسي</text>
+  
+  <!-- Days Header -->
+  <rect x="50" y="150" width="100" height="40" fill="#059669" rx="5"/>
+  <text x="100" y="175" text-anchor="middle" fill="white" font-size="14" font-weight="bold">اليوم</text>
+  
+  <rect x="150" y="150" width="130" height="40" fill="#059669" rx="5"/>
+  <text x="215" y="175" text-anchor="middle" fill="white" font-size="14" font-weight="bold">الأحد</text>
+  
+  <rect x="280" y="150" width="130" height="40" fill="#059669" rx="5"/>
+  <text x="345" y="175" text-anchor="middle" fill="white" font-size="14" font-weight="bold">الاثنين</text>
+  
+  <rect x="410" y="150" width="130" height="40" fill="#059669" rx="5"/>
+  <text x="475" y="175" text-anchor="middle" fill="white" font-size="14" font-weight="bold">الثلاثاء</text>
+  
+  <rect x="540" y="150" width="130" height="40" fill="#059669" rx="5"/>
+  <text x="605" y="175" text-anchor="middle" fill="white" font-size="14" font-weight="bold">الأربعاء</text>
+  
+  <rect x="670" y="150" width="80" height="40" fill="#059669" rx="5"/>
+  <text x="710" y="175" text-anchor="middle" fill="white" font-size="14" font-weight="bold">الخميس</text>
+  
+  <!-- Time slots -->
+  <rect x="50" y="190" width="100" height="50" fill="#e5e7eb" rx="5"/>
+  <text x="100" y="220" text-anchor="middle" fill="#374151" font-size="12">8:00 - 8:45</text>
+  
+  <rect x="50" y="240" width="100" height="50" fill="#e5e7eb" rx="5"/>
+  <text x="100" y="270" text-anchor="middle" fill="#374151" font-size="12">8:45 - 9:30</text>
+  
+  <rect x="50" y="290" width="100" height="50" fill="#e5e7eb" rx="5"/>
+  <text x="100" y="320" text-anchor="middle" fill="#374151" font-size="12">9:30 - 10:15</text>
+  
+  <rect x="50" y="340" width="100" height="50" fill="#e5e7eb" rx="5"/>
+  <text x="100" y="370" text-anchor="middle" fill="#374151" font-size="12">10:15 - 11:00</text>
+  
+  <rect x="50" y="390" width="100" height="50" fill="#e5e7eb" rx="5"/>
+  <text x="100" y="420" text-anchor="middle" fill="#374151" font-size="12">11:00 - 11:45</text>
+  
+  <rect x="50" y="440" width="100" height="50" fill="#e5e7eb" rx="5"/>
+  <text x="100" y="470" text-anchor="middle" fill="#374151" font-size="12">11:45 - 12:30</text>
+  
+  <!-- Sample subjects -->
+  <rect x="150" y="190" width="130" height="50" fill="#ddd6fe" rx="5"/>
+  <text x="215" y="220" text-anchor="middle" fill="#5b21b6" font-size="12" font-weight="bold">الرياضيات</text>
+  
+  <rect x="280" y="190" width="130" height="50" fill="#fef3c7" rx="5"/>
+  <text x="345" y="220" text-anchor="middle" fill="#92400e" font-size="12" font-weight="bold">اللغة العربية</text>
+  
+  <rect x="410" y="190" width="130" height="50" fill="#d1fae5" rx="5"/>
+  <text x="475" y="220" text-anchor="middle" fill="#065f46" font-size="12" font-weight="bold">العلوم</text>
+  
+  <rect x="540" y="190" width="130" height="50" fill="#fecaca" rx="5"/>
+  <text x="605" y="220" text-anchor="middle" fill="#991b1b" font-size="12" font-weight="bold">التاريخ</text>
+  
+  <rect x="670" y="190" width="80" height="50" fill="#e0e7ff" rx="5"/>
+  <text x="710" y="220" text-anchor="middle" fill="#3730a3" font-size="12" font-weight="bold">الفن</text>
+  
+  <!-- Placeholder text -->
+  <text x="400" y="550" text-anchor="middle" fill="#6b7280" font-size="16">سيتم رفع الجدول الدراسي قريباً</text>
+</svg>
