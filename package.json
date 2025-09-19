@@ -4,13 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "node scripts/copy-logo.js && next build --turbopack",
     "start": "next start",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf .next out",
-    "export": "next build && next export",
+    "export": "node scripts/copy-logo.js && next build && next export",
     "setup-db": "node scripts/setup-database.js",
     "setup-storage": "node scripts/setup-storage.js"
   },
